@@ -12,7 +12,7 @@ public class Lienzo extends JPanel {
 	
 	public Lienzo(int w, int h) {
 		d = new Dimension(w, h);
-		pelota = new Pelota(50, 100, 100, (float) Math.PI / 4, 30);
+		pelota = new Pelota(50, 100, 100, (float) Math.PI / 4, 100, d);
 	}
 	
 	@Override
@@ -26,17 +26,11 @@ public class Lienzo extends JPanel {
 			public void run() {
 				long t0 = System.nanoTime(), t1, t;
 				while(true) {
-					
 					t1 = System.nanoTime();
 					t = t1 - t0;
 					t0 = t1;
 					pelota.mover(t);
 					repaint();
-					try {
-						Thread.sleep(1);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
 				}
 			}
 		});
