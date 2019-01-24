@@ -10,8 +10,10 @@ public class Pelota {
 	private double y;
 	private int diametro;
 	private Dimension dim;
+	private Color color;
 	
-	public Pelota(int radio, double x, double y, double d, double v, Dimension dim) {
+	public Pelota(Color color, int radio, double x, double y, double d, double v, Dimension dim) {
+		this.color = color;
 		this.x = x - radio;
 		this.y = y - radio;
 		vx = v * Math.cos(d);
@@ -32,6 +34,8 @@ public class Pelota {
 	}
 	
 	public void paint(Graphics g) {
+		g.setColor(color);
+		g.fillOval((int) x, (int) y, diametro, diametro);
 		g.setColor(Color.BLACK);
 		g.drawOval((int) x, (int) y, diametro, diametro);
 	}
