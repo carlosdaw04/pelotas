@@ -1,6 +1,7 @@
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
@@ -9,9 +10,13 @@ public class Lienzo extends JPanel {
 	private Dimension d;
 	private Thread t;
 	private Juego juego;
+	private BufferedImage buffer;
+	private Graphics g;
 	
 	public Lienzo(int w, int h) {
 		d = new Dimension(w, h);
+		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
+		g = buffer.createGraphics();
 	}
 	
 	@Override
@@ -28,7 +33,9 @@ public class Lienzo extends JPanel {
 				t = t1 - t0;
 				t0 = t1;
 				juego.siguiente(t);
-				repaint();
+				juego.render(g);
+				paintComponent(getGraphics());
+//				repaint();
 			}
 		});
 		t.start();
@@ -36,6 +43,6 @@ public class Lienzo extends JPanel {
 	
 	@Override
 	protected void paintComponent(Graphics g) {
-		juego.render(g);
+		g.drawImage(buffer, 0, 0, this);
 	}
 }

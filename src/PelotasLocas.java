@@ -4,8 +4,6 @@ import java.util.Random;
 
 public class PelotasLocas extends Juego {
 
-	private static final int MINRADIO = 50;
-	private static final int MAXRADIO = 200;
 	private static final int MINVEL = 30;
 	private static final int MAXVEL = 200;
 	private static final Random r = new Random();
@@ -15,13 +13,21 @@ public class PelotasLocas extends Juego {
 	public PelotasLocas(Lienzo lienzo, int numeroPelotas) {
 		super(lienzo);
 		pelotas = new Pelota[numeroPelotas];
+		
+		int tamRef = Math.max(lienzo.getWidth(), lienzo.getHeight());
+		int minRadio = (int) (tamRef * 0.02);
+		int maxRadio = (int) (tamRef * 0.10);
+		
 		for (int i=0; i<pelotas.length; i++) {
-			Color color;
-			int radio;
-			double x;
-			double y;
-			double dir;
-			double vel;
+			Color color = new Color(r.nextFloat(), r.nextFloat(), r.nextFloat());
+			int radio = r.nextInt(maxRadio - minRadio + 1) + minRadio;
+			int xymin = 10 + radio;
+			int xmax = lienzo.getWidth() - 10 - radio;
+			int ymax = lienzo.getHeight() - 10 - radio;
+			int x = r.nextInt(xmax - xymin + 1) + xymin;
+			int y = r.nextInt(ymax - xymin + 1) + xymin;
+			double dir = r.nextDouble() * 2 * Math.PI;
+			double vel = r.nextInt(MAXVEL - MINVEL + 1) + MINVEL;
 			pelotas[i] = new Pelota(color, radio, x, y, dir, vel, lienzo.getSize());
 		}
 	}
