@@ -13,6 +13,8 @@ public class Pelota {
 	private Color color;
 	private int xmax;
 	private int ymax;
+	private int rx;
+	private int ry;
 	
 	public Pelota(Color color, int radio, int x, int y, double d, double v, Dimension dim) {
 		this.color = color;
@@ -22,8 +24,10 @@ public class Pelota {
 		vy = v * Math.sin(d);
 		diametro = 2 * radio;
 		this.dim = dim;
-		xmax = dim.width - 1;
-		ymax = dim.height - 1;
+		xmax = dim.width - diametro - 1;
+		ymax = dim.height - diametro - 1;
+		rx = dim.width + dim.width - diametro - diametro;
+		ry = dim.height + dim.height - diametro - diametro;
 	}
 	
 	public void mover(long t) {
@@ -35,16 +39,16 @@ public class Pelota {
 			x = Math.abs(dx) - x;
 			vx *= -1;
 		}
-		else if (x + diametro > dim.width) {
-			x = x - (x + diametro - xmax);
+		else if (x > xmax) {
+			x = rx - x;
 			vx *= -1;
 		}
 		if (y < 0) {
 			y = Math.abs(dy) - y;
 			vy *= -1;
 		}
-		else if (y + diametro > dim.height) {
-			y = y - (y + diametro - ymax);
+		else if (y > ymax) {
+			y = ry - y;
 			vy *= -1;
 		}
 	}
