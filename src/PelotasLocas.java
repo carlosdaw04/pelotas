@@ -4,6 +4,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class PelotasLocas extends Juego {
@@ -12,11 +13,11 @@ public class PelotasLocas extends Juego {
 	private static final int MAXVEL = 200;
 	private static final Random r = new Random();
 
-	private ArrayList<Pelota> pelotas;
+	private LinkedList<Pelota> pelotas;
 
 	public PelotasLocas(Lienzo lienzo, int numeroPelotas) {
 		super(lienzo);
-		pelotas = new ArrayList<Pelota>();
+		pelotas = new LinkedList<Pelota>();
 
 		int tamRef = Math.max(lienzo.getWidth(), lienzo.getHeight());
 		int minRadio = (int) (tamRef * 0.02);
