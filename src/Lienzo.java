@@ -1,11 +1,12 @@
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class Lienzo extends JPanel {
+public class Lienzo extends JPanel implements MouseListener {
 
 	private Dimension d;
 	private Thread t;
@@ -17,6 +18,7 @@ public class Lienzo extends JPanel {
 		d = new Dimension(w, h);
 		buffer = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
 		g = buffer.createGraphics();
+		addMouseListener(this);
 	}
 	
 	@Override
@@ -44,5 +46,30 @@ public class Lienzo extends JPanel {
 	@Override
 	protected void paintComponent(Graphics g) {
 		g.drawImage(buffer, 0, 0, this);
+	}
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		juego.mouseClicked(e);		
+	}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		juego.mouseEntered(e);
+	}
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		juego.mouseExited(e);
+	}
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		juego.mousePressed(e);
+	}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		juego.mouseReleased(e);
 	}
 }

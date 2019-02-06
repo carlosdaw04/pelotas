@@ -8,6 +8,7 @@ public class Pelota {
 	private double vy;
 	private double x;
 	private double y;
+	private int radio;
 	private int diametro;
 	private Dimension dim;
 	private Color color;
@@ -18,6 +19,7 @@ public class Pelota {
 	
 	public Pelota(Color color, int radio, int x, int y, double d, double v, Dimension dim) {
 		this.color = color;
+		this.radio = radio;
 		this.x = x - radio;
 		this.y = y - radio;
 		vx = v * Math.cos(d);
@@ -51,6 +53,18 @@ public class Pelota {
 			y = ry - y;
 			vy *= -1;
 		}
+	}
+	
+	public int getX() {
+		return (int) x + radio;
+	}
+	
+	public int getY() {
+		return (int) y + radio;
+	}
+	
+	public int getRadio() {
+		return radio;
 	}
 	
 	public void paint(Graphics g) {
