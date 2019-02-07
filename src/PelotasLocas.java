@@ -18,10 +18,12 @@ public class PelotasLocas extends Juego {
 	private int maxRadio;
 	
 	private LinkedList<Pelota> pelotas;
+	private ArrayList<Pelota> eliminadas;
 
 	public PelotasLocas(Lienzo lienzo, int numeroPelotas) {
 		super(lienzo);
 		pelotas = new LinkedList<Pelota>();
+		eliminadas = new ArrayList<Pelota>();
 
 		tamRef = Math.max(lienzo.getWidth(), lienzo.getHeight());
 		minRadio = (int) (tamRef * 0.02);
@@ -52,6 +54,15 @@ public class PelotasLocas extends Juego {
 			while (i.hasNext())
 				i.next().mover(ns);
 		}
+		synchronized (eliminadas) {
+			Iterator<Pelota> i = eliminadas.iterator();
+			while (i.hasNext()) {
+				Pelota p = i.next();
+				if (p.desaparecer(ns))
+					i.remove();
+			}
+		}
+		
 	}
 
 	@Override
@@ -60,10 +71,16 @@ public class PelotasLocas extends Juego {
 		g.fillRect(0, 0, getLienzo().getWidth(), getLienzo().getHeight());
 		synchronized (pelotas) {
 			Iterator<Pelota> i = pelotas.iterator();
-			while (i.hasNext())
+			while (i.hasNext()) {
 				i.next().paint(g);
+			}
 			g.setColor(Color.BLACK);
 			g.drawString("Número de pelotas: " + pelotas.size(), 50, 50);
+		}
+		synchronized (eliminadas) {
+			Iterator<Pelota> i = eliminadas.iterator();
+			while (i.hasNext()) 
+				i.next().paintDesaparecer(g);
 		}
 	}
 
@@ -94,8 +111,12 @@ public class PelotasLocas extends Juego {
 		int yr = e.getY();
 		int d = (int) Point2D.distance(xp, yp, xr, yr);
 		synchronized (pelotas) {
-			if (d < p.getRadio())
+			if (d < p.getRadio()) {
 				pelotas.remove(p);
+				synchronized (eliminadas) {
+					eliminadas.add(p);
+				}
+			}
 			else
 				pelotas.add(0, nuevaPelota());
 		}
